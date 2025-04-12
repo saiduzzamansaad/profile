@@ -388,7 +388,7 @@ const PremiumHero = () => {
                     repeat: Infinity
                   }}
                 />
-                Senior Web Developer
+                Senior Full Stack Web Developer
               </span>
             </motion.div>
 
