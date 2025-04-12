@@ -688,7 +688,7 @@ Let’s turn your idea into a fully functional, high-performance product.
                     }}
                     className="w-2 h-2 sm:w-3 sm:h-3 bg-white rounded-full mr-2"
                   ></motion.div>
-                  <span className="font-medium text-white text-xs sm:text-sm">8+ Years Exp</span>
+                  <span className="font-medium text-white text-xs sm:text-sm">5+ Years Exp</span>
                 </motion.div>
                 
                 {/* Client badge with floating animation */}
