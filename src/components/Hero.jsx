@@ -437,7 +437,9 @@ const PremiumHero = () => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1 }}
               >
-                Crafting immersive digital experiences that blend aesthetics with functionality for global brands and startups.
+                I build modern, fast, and user-friendly web applications from front to back.
+From stunning interfaces to powerful backends — I handle it all.
+
               </motion.p>
             </motion.div>
 
@@ -455,7 +457,8 @@ const PremiumHero = () => {
                   repeatType: "reverse",
                   duration: 2
                 }}
-              >{rounded}</motion.span> years of experience, I specialize in creating premium digital products that drive engagement and deliver measurable results for clients worldwide.
+              >{rounded}</motion.span> years of experience,Specialized in SaaS tools, automation, and custom business solutions.
+Let’s turn your idea into a fully functional, high-performance product.
             </motion.p>
 
             <motion.div
