@@ -405,7 +405,7 @@ const PremiumHero = () => {
                   }}
                   transition={{ delay: 0.4 }}
                 >
-                  Alexander
+                  MD.SAIDUZZAMAN
                 </motion.span>
               </span>{' '}
               <motion.span 
@@ -417,7 +417,7 @@ const PremiumHero = () => {
                 }}
                 transition={{ delay: 0.6 }}
               >
-                Montgomery
+                SAAD
               </motion.span>
             </motion.h1>
 
