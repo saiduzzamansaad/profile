@@ -315,7 +315,7 @@ const About = () => {
                 viewport={{ once: true }}
                 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#ccd6f6] leading-tight"
               >
-                <p>Hello, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-blue-400">John Doe</span></p>
+                <p>Hello, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-blue-400">MD.SAIDUZZAMAN SAAD</span></p>
                 <p className="mt-3 md:mt-4 text-xl sm:text-2xl md:text-3xl text-gray-400">Full Stack Developer</p>
               </motion.div>
 
