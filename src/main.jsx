@@ -5,7 +5,7 @@ import './styles/index.css';
 
 import ReactGA from "react-ga4";
 
-ReactGA.initialize("G-2YMST8S8SY"); // replace with your Measurement ID
+ReactGA.initialize("G-2YMST8S8SY"); 
 ReactGA.send("pageview");
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
