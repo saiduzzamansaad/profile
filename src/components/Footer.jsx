@@ -15,18 +15,18 @@ const Footer = () => {
           <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-pink-600 transition-colors">
             <FaGithub size={24} />
           </a>
-          <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-pink-600 transition-colors">
+          <a href="www.linkedin.com/in/muhammod-saiduzzaman-saad-084837269" target="_blank" rel="noreferrer" className="hover:text-pink-600 transition-colors">
             <FaLinkedin size={24} />
           </a>
           <a href="https://twitter.com" target="_blank" rel="noreferrer" className="hover:text-pink-600 transition-colors">
             <FaTwitter size={24} />
           </a>
-          <a href="mailto:email@example.com" className="hover:text-pink-600 transition-colors">
+          <a href="mailto:saiduzzaman113@gmail.com" className="hover:text-pink-600 transition-colors">
             <HiOutlineMail size={24} />
           </a>
         </div>
         <p className="text-sm text-gray-500">
-          &copy; {new Date().getFullYear()} John Doe. All rights reserved.
+          &copy; {new Date().getFullYear()} MD.SAIDUZZAMAN SAAD All rights reserved.
         </p>
         <p className="text-xs text-gray-600 mt-2">
           Built with React, Tailwind CSS, and Framer Motion
