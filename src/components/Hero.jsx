@@ -276,9 +276,9 @@ const PremiumHero = () => {
   }, [isMobile]);
 
   const socialLinks = [
-    { icon: <FaLinkedin className="text-lg" />, label: 'LinkedIn', url: '#', color: 'bg-blue-700' },
+    { icon: <FaLinkedin className="text-lg" />, label: 'LinkedIn', url: 'www.linkedin.com/in/muhammod-saiduzzaman-saad-084837269', color: 'bg-blue-700' },
     { icon: <FaGithub className="text-lg" />, label: 'GitHub', url: '#', color: 'bg-gray-900' },
-    { icon: <HiOutlineMail className="text-lg" />, label: 'Email', url: '#', color: 'bg-red-600' },
+    { icon: <HiOutlineMail className="text-lg" />, label: 'Email', url: 'saiduzzaman113@gmail.com', color: 'bg-red-600' },
     { icon: <FaDribbble className="text-lg" />, label: 'Dribbble', url: '#', color: 'bg-pink-600' },
     { icon: <FaBehance className="text-lg" />, label: 'Behance', url: '#', color: 'bg-blue-600' },
     { icon: <FaFigma className="text-lg" />, label: 'Figma', url: '#', color: 'bg-purple-600' },
