@@ -6,7 +6,7 @@ import { FiGithub, FiLayers, FiX, FiChevronLeft, FiChevronRight } from 'react-ic
 import { HiOutlineExternalLink } from 'react-icons/hi';
 
 // Product images (replace with your actual project images)
-// import EcommerceImage from './images/ecommerce.jpg';
+import project1 from '../assets/project1.png';
 // import TaskManagerImage from './images/task-manager.jpg';
 // import WeatherAppImage from './images/weather-app.jpg';
 // import AIContentImage from './images/ai-content.jpg';
@@ -159,7 +159,7 @@ const projects = [
     tags: ['React', 'TypeScript', 'Node.js', 'MongoDB', 'Redux', 'Stripe'],
     github: 'https://github.com',
     live: 'https://example.com',
-    // image: EcommerceImage,
+    image: project1,
     features: [
       'Product catalog with filtering',
       'Shopping cart functionality',
