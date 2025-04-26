@@ -157,7 +157,7 @@ const projects = [
     title: 'Civil Engineering Calculator Suite',
     description: 'A comprehensive collection of calculators designed for civil engineers, construction professionals, and students. These tools simplify complex calculations related to structural design, material estimation, surveying, and more, ensuring accuracy and efficiency in engineering projects.',
     tags: ['React', 'Tailwind CSS', 'Node.js', 'MongoDB', 'Redux'],
-    github: 'https://github.com',
+    github: 'https://github.com/saiduzzamansaad',
     live: 'https://civil-xi.vercel.app/',
     image: project1,
     features: [
