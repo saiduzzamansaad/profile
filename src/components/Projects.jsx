@@ -152,24 +152,21 @@ const ProjectModal = ({ project, onClose, onNext, onPrev, currentIndex, totalPro
 };
 
 const projects = [
-  {
+   {
     id: 1,
-    title: 'Civil Engineering Calculator Suite',
-    description: 'A comprehensive collection of calculators designed for civil engineers, construction professionals, and students. These tools simplify complex calculations related to structural design, material estimation, surveying, and more, ensuring accuracy and efficiency in engineering projects.',
-    tags: ['React', 'Node.js', 'MongoDB', 'Redux', 'Tailwind CSS'],
+    title: 'E-commerce Platform',
+    description: 'A full-stack e-commerce platform with React, Node.js, and MongoDB. Features include product filtering, cart functionality, user authentication, and payment processing with Stripe.',
+    tags: ['React', 'TypeScript', 'Node.js', 'MongoDB', 'Redux', 'Stripe'],
     github: 'https://github.com',
     live: 'https://example.com',
     image: project1,
     features: [
-
-      'Structural Design Calculators',
-      'Material Estimation Tools',
-      'Surveying & Earthwork Calculators',
-      'Unit Converters'
-      'User-Friendly Interface'
+      'Product catalog with filtering',
+      'Shopping cart functionality',
+      'User authentication',
+      'Payment processing',
+      'Admin dashboard'
     ]
-      
-    
   },
   {
     id: 2,
