@@ -154,18 +154,62 @@ const ProjectModal = ({ project, onClose, onNext, onPrev, currentIndex, totalPro
 const projects = [
   {
     id: 1,
-    title: 'E-commerce Platform',
-    description: 'A full-stack e-commerce platform with React, Node.js, and MongoDB. Features include product filtering, cart functionality, user authentication, and payment processing with Stripe.',
-    tags: ['React', 'TypeScript', 'Node.js', 'MongoDB', 'Redux', 'Stripe'],
+    title: 'Civil Engineering Calculator Suite',
+    description: 'A comprehensive collection of calculators designed for civil engineers, construction professionals, and students. These tools simplify complex calculations related to structural design, material estimation, surveying, and more, ensuring accuracy and efficiency in engineering projects.',
+    tags: ['React', 'Node.js', 'MongoDB', 'Redux', 'Tailwind CSS'],
     github: 'https://github.com',
     live: 'https://example.com',
     image: project1,
     features: [
-      'Product catalog with filtering',
-      'Shopping cart functionality',
-      'User authentication',
-      'Payment processing',
-      'Admin dashboard'
+      Structural Design Calculators
+Beam Load Calculator – Determines bending moments, shear forces, and deflection.
+
+Column Load Capacity – Calculates axial load capacity based on material and dimensions.
+
+Reinforcement Calculator – Estimates steel reinforcement required for concrete structures.
+
+2. Material Estimation Tools
+Concrete Volume Calculator – Computes the required volume for slabs, beams, and columns.
+
+Brick & Block Calculator – Estimates the number of bricks/blocks needed for masonry work.
+
+Asphalt & Road Base Calculator – Determines material quantities for paving projects.
+
+3. Surveying & Earthwork Calculators
+Cut & Fill Volume Estimator – Calculates earthwork volumes for grading projects.
+
+Slope & Gradient Calculator – Determines slope percentages and angles.
+
+Horizontal Curve Calculator – Computes curve parameters for road design.
+
+4. Hydraulics & Hydrology Tools
+Pipe Flow Calculator – Estimates flow rate and pressure loss in pipelines.
+
+Stormwater Runoff Calculator – Predicts runoff volume based on rainfall intensity.
+
+Open Channel Flow – Calculates flow velocity and depth in channels.
+
+5. Geotechnical Engineering
+Bearing Capacity Calculator – Estimates soil bearing capacity for foundations.
+
+Settlement Calculator – Predicts soil settlement under loads.
+
+Slope Stability Analysis – Evaluates the safety factor of slopes.
+
+6. Construction & Cost Estimation
+Labor & Material Cost Estimator – Provides cost breakdowns for construction projects.
+
+Equipment Productivity Calculator – Estimates machinery output for project planning.
+
+7. Unit Converters
+Length, Area, Volume, Weight, Pressure, Force, etc. – Quick conversions between different units.
+
+8. User-Friendly Interface
+Responsive Design – Works on desktops, tablets, and mobile devices.
+
+Save & Export Results – Allows storing calculations for future reference.
+
+Interactive Diagrams – Visual aids for better understanding of inputs and outputs.
     ]
   },
   {
