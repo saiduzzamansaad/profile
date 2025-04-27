@@ -3,18 +3,11 @@ import { motion, useMotionValue, useTransform, animate, useAnimation } from 'fra
 import { FaGithub, FaLinkedin, FaArrowRight, FaDribbble, FaBehance, FaFigma } from 'react-icons/fa';
 import { HiOutlineMail } from 'react-icons/hi';
 import { SiTypescript, SiReact, SiNextdotjs, SiTailwindcss, SiNodedotjs, SiThreedotjs } from 'react-icons/si';
-import * as THREE from 'three';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
-import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
-import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
-import premiumDeveloperImage from '../assets/premiumDeveloperImage.png';
+import premiumDeveloperImage1 from '../assets/premiumDeveloperImage1.png';
 
 const PremiumHero = () => {
   const count = useMotionValue(0);
   const rounded = useTransform(count, Math.round);
-  const threeJsContainer = useRef(null);
   const controls = useAnimation();
   const [isMobile, setIsMobile] = useState(false);
   
@@ -57,228 +50,10 @@ const PremiumHero = () => {
     sequence();
   }, [controls]);
 
-  // Three.js initialization with enhanced effects
-  useEffect(() => {
-    if (!threeJsContainer.current) return;
-
-    // Scene setup
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ 
-      alpha: true, 
-      antialias: true,
-      powerPreference: "high-performance"
-    });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 1.5));
-    threeJsContainer.current.appendChild(renderer.domElement);
-
-    // Bloom effect with mobile-optimized settings
-    const renderScene = new RenderPass(scene, camera);
-    const bloomPass = new UnrealBloomPass(
-      new THREE.Vector2(window.innerWidth, window.innerHeight),
-      isMobile ? 1.2 : 2.0, // Reduced bloom on mobile
-      isMobile ? 0.4 : 0.6,
-      isMobile ? 0.7 : 0.9
-    );
-    bloomPass.threshold = 0;
-    bloomPass.strength = isMobile ? 1.2 : 2.0;
-    bloomPass.radius = isMobile ? 0.6 : 0.8;
-
-    const composer = new EffectComposer(renderer);
-    composer.addPass(renderScene);
-    composer.addPass(bloomPass);
-
-    // Particles with mobile-optimized count
-    const particleCount = isMobile ? 800 : 1500;
-    const particles = new THREE.BufferGeometry();
-    const posArray = new Float32Array(particleCount * 3);
-    const sizeArray = new Float32Array(particleCount);
-    const colorArray = new Float32Array(particleCount * 3);
-
-    // Create a torus knot for more interesting particle distribution
-    const torusKnot = new THREE.TorusKnotGeometry(5, 1.5, 100, 16);
-    const knotPositions = torusKnot.attributes.position.array;
-
-    for (let i = 0; i < particleCount; i++) {
-      // Position - mix between random and torus knot distribution
-      if (i < particleCount / 2) {
-        // Use torus knot positions for some particles
-        const knotIndex = Math.floor(Math.random() * (knotPositions.length / 3)) * 3;
-        posArray[i * 3] = knotPositions[knotIndex] + (Math.random() - 0.5) * 2;
-        posArray[i * 3 + 1] = knotPositions[knotIndex + 1] + (Math.random() - 0.5) * 2;
-        posArray[i * 3 + 2] = knotPositions[knotIndex + 2] + (Math.random() - 0.5) * 2;
-      } else {
-        // Random positions for others
-        posArray[i * 3] = (Math.random() - 0.5) * 20;
-        posArray[i * 3 + 1] = (Math.random() - 0.5) * 20;
-        posArray[i * 3 + 2] = (Math.random() - 0.5) * 20;
-      }
-
-      // Size - smaller on mobile
-      sizeArray[i] = Math.random() * (isMobile ? 0.05 : 0.1) + 0.02;
-
-      // Color - gradient from blue to purple with some randomness
-      const hue = 0.66 + (Math.random() - 0.5) * 0.1; // Blue-purple range
-      const color = new THREE.Color().setHSL(
-        hue,
-        0.9,
-        0.6 + Math.random() * 0.2
-      );
-      colorArray[i * 3] = color.r;
-      colorArray[i * 3 + 1] = color.g;
-      colorArray[i * 3 + 2] = color.b;
-    }
-
-    particles.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    particles.setAttribute('size', new THREE.BufferAttribute(sizeArray, 1));
-    particles.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
-
-    const particleMaterial = new THREE.PointsMaterial({
-      size: isMobile ? 0.03 : 0.05,
-      vertexColors: true,
-      transparent: true,
-      opacity: isMobile ? 0.7 : 0.9,
-      blending: THREE.AdditiveBlending,
-      sizeAttenuation: true
-    });
-
-    const particleMesh = new THREE.Points(particles, particleMaterial);
-    scene.add(particleMesh);
-
-    // Floating spheres with mobile-optimized count
-    const spheres = [];
-    const sphereGeometry = new THREE.SphereGeometry(0.3, 32, 32);
-    const sphereMaterial = new THREE.MeshBasicMaterial({
-      color: 0x818cf8,
-      transparent: true,
-      opacity: isMobile ? 0.5 : 0.7,
-      wireframe: true
-    });
-
-    const sphereCount = isMobile ? 5 : 8;
-    for (let i = 0; i < sphereCount; i++) {
-      const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial.clone());
-      sphere.position.x = (Math.random() - 0.5) * 10;
-      sphere.position.y = (Math.random() - 0.5) * 10;
-      sphere.position.z = (Math.random() - 0.5) * 10;
-      sphere.userData = {
-        speed: Math.random() * 0.002 + 0.001,
-        amplitude: Math.random() * 3 + 2,
-        rotationSpeed: Math.random() * 0.02 + 0.01,
-        offset: Math.random() * Math.PI * 2
-      };
-      spheres.push(sphere);
-      scene.add(sphere);
-    }
-
-    // Add floating tech icons in 3D space (only on desktop)
-    if (!isMobile) {
-      const fontLoader = new FontLoader();
-      fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
-        const techWords = ['DEV', 'CODE', 'UI/UX', 'WEB'];
-        
-        techWords.forEach((word, idx) => {
-          const textGeometry = new TextGeometry(word, {
-            font: font,
-            size: 0.4,
-            height: 0.05,
-            curveSegments: 8,
-            bevelEnabled: true,
-            bevelThickness: 0.02,
-            bevelSize: 0.01,
-            bevelOffset: 0,
-            bevelSegments: 3
-          });
-          
-          textGeometry.center();
-          
-          const textMaterial = new THREE.MeshBasicMaterial({
-            color: new THREE.Color().setHSL(0.66, 0.8, 0.7),
-            transparent: true,
-            opacity: 0.15,
-            wireframe: true
-          });
-          
-          const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-          textMesh.position.x = (Math.random() - 0.5) * 15;
-          textMesh.position.y = (Math.random() - 0.5) * 10;
-          textMesh.position.z = (Math.random() - 0.5) * 15;
-          textMesh.userData = {
-            speed: Math.random() * 0.001 + 0.0005,
-            rotationSpeed: Math.random() * 0.01 + 0.005
-          };
-          scene.add(textMesh);
-          spheres.push(textMesh);
-        });
-      });
-    }
-
-    // Camera animation
-    camera.position.z = isMobile ? 10 : 8;
-    const cameraTarget = new THREE.Vector3(0, 0, 0);
-
-    // Animation loop with optimized performance
-    let lastTime = 0;
-    const animate = (time) => {
-      requestAnimationFrame(animate);
-      
-      const deltaTime = time - lastTime;
-      lastTime = time;
-      
-      // Smooth camera movement
-      camera.position.x += (Math.sin(time * 0.0005) * 0.1 - camera.position.x) * 0.05;
-      camera.position.y += (Math.cos(time * 0.0007) * 0.1 - camera.position.y) * 0.05;
-      camera.lookAt(cameraTarget);
-
-      // Particle system animation
-      particleMesh.rotation.x += 0.0002 * deltaTime;
-      particleMesh.rotation.y += 0.0003 * deltaTime;
-
-      // Animate spheres with individual properties
-      spheres.forEach((sphere, i) => {
-        const { speed, amplitude, rotationSpeed, offset } = sphere.userData;
-        if (rotationSpeed) {
-          sphere.rotation.x += rotationSpeed * deltaTime;
-          sphere.rotation.y += rotationSpeed * deltaTime;
-        }
-        if (speed && amplitude) {
-          sphere.position.x = Math.sin(time * speed * (i + 1) + offset) * amplitude;
-          sphere.position.y = Math.cos(time * speed * (i + 1) + offset) * amplitude;
-        }
-      });
-
-      composer.render();
-    };
-
-    animate();
-
-    // Handle resize with debounce
-    let resizeTimeout;
-    const handleResize = () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        composer.setSize(window.innerWidth, window.innerHeight);
-      }, 100);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      if (threeJsContainer.current && renderer.domElement) {
-        threeJsContainer.current.removeChild(renderer.domElement);
-      }
-    };
-  }, [isMobile]);
-
   const socialLinks = [
-    { icon: <FaLinkedin className="text-lg" />, label: 'LinkedIn', url: 'www.linkedin.com/in/muhammod-saiduzzaman-saad-084837269', color: 'bg-blue-700' },
+    { icon: <FaLinkedin className="text-lg" />, label: 'LinkedIn', url: '#', color: 'bg-blue-700' },
     { icon: <FaGithub className="text-lg" />, label: 'GitHub', url: '#', color: 'bg-gray-900' },
-    { icon: <HiOutlineMail className="text-lg" />, label: 'Email', url: 'saiduzzaman113@gmail.com', color: 'bg-red-600' },
+    { icon: <HiOutlineMail className="text-lg" />, label: 'Email', url: '#', color: 'bg-red-600' },
     { icon: <FaDribbble className="text-lg" />, label: 'Dribbble', url: '#', color: 'bg-pink-600' },
     { icon: <FaBehance className="text-lg" />, label: 'Behance', url: '#', color: 'bg-blue-600' },
     { icon: <FaFigma className="text-lg" />, label: 'Figma', url: '#', color: 'bg-purple-600' },
@@ -318,29 +93,29 @@ const PremiumHero = () => {
   };
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center relative overflow-hidden">
-      {/* Three.js Background */}
-      <div 
-        ref={threeJsContainer} 
-        className="absolute inset-0 w-full h-full pointer-events-none"
-        style={{ zIndex: 0 }}
-      />
-
+    <section className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center relative overflow-hidden">
       {/* Luxury background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Animated grid pattern */}
+        {/* Premium geometric pattern */}
         <motion.div 
-          className="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==')]"
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: `
+              linear-gradient(45deg, rgba(79, 70, 229, 0.1) 50%, transparent 50%),
+              linear-gradient(-45deg, rgba(109, 40, 217, 0.1) 50%, transparent 50%)
+            `,
+            backgroundSize: '60px 60px'
+          }}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.05 }}
+          animate={{ opacity: 0.1 }}
           transition={{ duration: 1.5 }}
-        ></motion.div>
+        />
         
         {/* Floating light spots */}
         {[...Array(isMobile ? 3 : 5)].map((_, i) => (
           <motion.div
             key={i}
-            className={`absolute rounded-full bg-gradient-to-br from-blue-500/10 to-purple-500/10 filter blur-xl`}
+            className={`absolute rounded-full bg-gradient-to-br from-indigo-600/10 to-violet-600/10 filter blur-xl`}
             initial={{
               width: `${Math.random() * (isMobile ? 100 : 200) + (isMobile ? 50 : 100)}px`,
               height: `${Math.random() * (isMobile ? 100 : 200) + (isMobile ? 50 : 100)}px`,
@@ -361,6 +136,21 @@ const PremiumHero = () => {
             }}
           />
         ))}
+
+        {/* Animated grid lines */}
+        <motion.div 
+          className="absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px)
+            `,
+            backgroundSize: '40px 40px'
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.05 }}
+          transition={{ delay: 0.5, duration: 1.5 }}
+        />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24 relative z-10 w-full">
@@ -376,9 +166,9 @@ const PremiumHero = () => {
               variants={itemVariants}
               className="mb-4 md:mb-6"
             >
-              <span className="text-blue-400 font-medium tracking-wider uppercase text-xs sm:text-sm inline-flex items-center">
+              <span className="text-indigo-400 font-medium tracking-wider uppercase text-xs sm:text-sm inline-flex items-center">
                 <motion.span 
-                  className="inline-block w-2 h-2 sm:w-3 sm:h-3 bg-blue-500 rounded-full mr-2"
+                  className="inline-block w-2 h-2 sm:w-3 sm:h-3 bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full mr-2"
                   animate={{
                     scale: [1, 1.2, 1],
                     opacity: [0.8, 1, 0.8]
@@ -388,7 +178,7 @@ const PremiumHero = () => {
                     repeat: Infinity
                   }}
                 />
-                Senior Full Stack Web Developer
+                Senior Web Developer
               </span>
             </motion.div>
 
@@ -396,7 +186,7 @@ const PremiumHero = () => {
               variants={itemVariants}
               className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4 md:mb-6"
             >
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-violet-400">
                 <motion.span
                   initial={{ opacity: 0 }}
                   animate={{ 
@@ -426,7 +216,7 @@ const PremiumHero = () => {
               className="mb-6 md:mb-8"
             >
               <motion.div 
-                className="w-16 sm:w-24 h-0.5 sm:h-1 bg-gradient-to-r from-blue-500 to-purple-500 mb-3 sm:mb-4"
+                className="w-16 sm:w-24 h-0.5 sm:h-1 bg-gradient-to-r from-indigo-500 to-violet-500 mb-3 sm:mb-4"
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ delay: 0.8, duration: 0.8 }}
@@ -437,9 +227,7 @@ const PremiumHero = () => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1 }}
               >
-                I build modern, fast, and user-friendly web applications from front to back.
-From stunning interfaces to powerful backends — I handle it all.
-
+                Crafting immersive digital experiences that blend aesthetics with functionality for global brands and startups.
               </motion.p>
             </motion.div>
 
@@ -448,7 +236,7 @@ From stunning interfaces to powerful backends — I handle it all.
               className="text-gray-400 mb-6 md:mb-10 max-w-lg leading-relaxed font-light text-sm sm:text-base"
             >
               With over <motion.span 
-                className="text-blue-400 font-medium"
+                className="text-indigo-400 font-medium"
                 animate={{
                   textShadow: "0 0 8px rgba(79, 70, 229, 0.5)"
                 }}
@@ -457,8 +245,7 @@ From stunning interfaces to powerful backends — I handle it all.
                   repeatType: "reverse",
                   duration: 2
                 }}
-              >{rounded}</motion.span> years of experience,Specialized in SaaS tools, automation, and custom business solutions.
-Let’s turn your idea into a fully functional, high-performance product.
+              >{rounded}</motion.span> years of experience, I specialize in creating premium digital products that drive engagement and deliver measurable results for clients worldwide.
             </motion.p>
 
             <motion.div
@@ -468,10 +255,10 @@ Let’s turn your idea into a fully functional, high-performance product.
               <motion.button
                 whileHover={{ 
                   scale: 1.03,
-                  boxShadow: "0 10px 25px -5px rgba(59, 130, 246, 0.4)"
+                  boxShadow: "0 10px 25px -5px rgba(79, 70, 229, 0.4)"
                 }}
                 whileTap={{ scale: 0.98 }}
-                className="px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium flex items-center gap-2 md:gap-3 shadow-lg hover:shadow-xl transition-all group relative overflow-hidden"
+                className="px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-lg font-medium flex items-center gap-2 md:gap-3 shadow-lg hover:shadow-xl transition-all group relative overflow-hidden"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.2 }}
@@ -491,7 +278,7 @@ Let’s turn your idea into a fully functional, high-performance product.
                   <FaArrowRight className="text-sm md:text-base" />
                 </motion.span>
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-blue-700 to-purple-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-violet-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   initial={{ opacity: 0 }}
                 />
               </motion.button>
@@ -617,14 +404,14 @@ Let’s turn your idea into a fully functional, high-performance product.
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.6 }}
-                className="absolute -inset-4 sm:-inset-6 md:-inset-8 bg-gradient-to-br from-blue-900/30 to-purple-900/30 rounded-2xl sm:rounded-3xl transform rotate-2"
+                className="absolute -inset-4 sm:-inset-6 md:-inset-8 bg-gradient-to-br from-indigo-900/30 to-violet-900/30 rounded-2xl sm:rounded-3xl transform rotate-2"
               ></motion.div>
               
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.8 }}
-                className="absolute -inset-3 sm:-inset-5 md:-inset-6 bg-gradient-to-br from-blue-800/20 to-purple-800/20 rounded-xl sm:rounded-2xl transform -rotate-1"
+                className="absolute -inset-3 sm:-inset-5 md:-inset-6 bg-gradient-to-br from-indigo-800/20 to-violet-800/20 rounded-xl sm:rounded-2xl transform -rotate-1"
               ></motion.div>
               
               {/* Main image container with parallax effect */}
@@ -645,8 +432,8 @@ Let’s turn your idea into a fully functional, high-performance product.
                   className="overflow-hidden"
                 >
                   <img 
-                    src={premiumDeveloperImage} 
-                    alt="Alexander Montgomery" 
+                    src={premiumDeveloperImage1} 
+                    alt="MD. SAIDUZZAMAN SAAD" 
                     className="w-full h-auto object-cover grayscale-[15%] contrast-105 hover:grayscale-0 hover:contrast-110 transition-all duration-500"
                   />
                 </motion.div>
@@ -656,7 +443,7 @@ Let’s turn your idea into a fully functional, high-performance product.
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1 }}
-                  className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 pointer-events-none"
+                  className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-violet-500/10 pointer-events-none"
                 ></motion.div>
                 
                 {/* Floating experience badge with bounce animation */}
@@ -675,7 +462,7 @@ Let’s turn your idea into a fully functional, high-performance product.
                       duration: 4 
                     }
                   }}
-                  className="absolute -top-4 -left-4 sm:-top-5 sm:-left-5 md:-top-6 md:-left-6 bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 sm:px-5 sm:py-2 md:px-6 md:py-3 rounded-full shadow-xl flex items-center backdrop-blur-sm z-10"
+                  className="absolute -top-4 -left-4 sm:-top-5 sm:-left-5 md:-top-6 md:-left-6 bg-gradient-to-r from-indigo-600 to-violet-600 px-4 py-2 sm:px-5 sm:py-2 md:px-6 md:py-3 rounded-full shadow-xl flex items-center backdrop-blur-sm z-10"
                 >
                   <motion.div
                     animate={{
@@ -688,7 +475,7 @@ Let’s turn your idea into a fully functional, high-performance product.
                     }}
                     className="w-2 h-2 sm:w-3 sm:h-3 bg-white rounded-full mr-2"
                   ></motion.div>
-                  <span className="font-medium text-white text-xs sm:text-sm">5+ Years Exp</span>
+                  <span className="font-medium text-white text-xs sm:text-sm">8+ Years Exp</span>
                 </motion.div>
                 
                 {/* Client badge with floating animation */}
@@ -790,7 +577,7 @@ Let’s turn your idea into a fully functional, high-performance product.
                     ease: "linear"
                   }
                 }}
-                className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 w-12 h-12 sm:w-16 sm:h-16 border-t-4 border-r-4 border-blue-400 rounded-tr-xl"
+                className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 w-12 h-12 sm:w-16 sm:h-16 border-t-4 border-r-4 border-indigo-400 rounded-tr-xl"
               ></motion.div>
               
               <motion.div
@@ -808,7 +595,7 @@ Let’s turn your idea into a fully functional, high-performance product.
                     ease: "linear"
                   }
                 }}
-                className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 w-12 h-12 sm:w-16 sm:h-16 border-b-4 border-l-4 border-purple-400 rounded-bl-xl"
+                className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 w-12 h-12 sm:w-16 sm:h-16 border-b-4 border-l-4 border-violet-400 rounded-bl-xl"
               ></motion.div>
 
               {/* Floating tech bubbles - only on desktop */}
@@ -828,7 +615,7 @@ Let’s turn your idea into a fully functional, high-performance product.
                     repeatType: "reverse",
                     ease: "easeInOut"
                   }}
-                  className={`absolute ${i === 1 ? 'top-6 -left-6 w-5 h-5' : i === 2 ? 'top-1/2 -right-8 w-6 h-6' : 'bottom-16 -left-8 w-4 h-4'} rounded-full bg-gradient-to-br from-blue-400/30 to-purple-400/30`}
+                  className={`absolute ${i === 1 ? 'top-6 -left-6 w-5 h-5' : i === 2 ? 'top-1/2 -right-8 w-6 h-6' : 'bottom-16 -left-8 w-4 h-4'} rounded-full bg-gradient-to-br from-indigo-400/30 to-violet-400/30`}
                 ></motion.div>
               ))}
             </div>
