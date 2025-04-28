@@ -124,7 +124,7 @@ const About = () => {
   ];
 
   const stats = [
-    { icon: '👨‍💻', label: '8+ Years Exp', highlight: 'text-indigo-300' },
+    { icon: '👨‍💻', label: '4+ Years Exp', highlight: 'text-indigo-300' },
     { icon: '🚀', label: '120+ Projects', highlight: 'text-blue-300' },
     { icon: '🌐', label: 'Global Clients', highlight: 'text-cyan-300' },
     { icon: '📱', label: 'Mobile First', highlight: 'text-purple-300' },
