@@ -22,7 +22,7 @@ const PremiumHero = () => {
   }, []);
 
   React.useEffect(() => {
-    const animation = animate(count, 5, { duration: 2 });
+    const animation = animate(count, 4, { duration: 2 });
     return animation.stop;
   }, []);
 
