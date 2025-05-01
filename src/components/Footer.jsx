@@ -35,7 +35,7 @@ const Footer = () => {
 
   const socialLinks = [
     { icon: <FaGithub size={20} />, url: "https://github.com", name: "GitHub" },
-    { icon: <FaLinkedin size={20} />, url: "https://linkedin.com", name: "LinkedIn" },
+    { icon: <FaLinkedin size={20} />, url: "www.linkedin.com/in/muhammod-saiduzzaman-saad-084837269", name: "LinkedIn" },
     { icon: <FaTwitter size={20} />, url: "https://twitter.com", name: "Twitter" },
     { icon: <HiOutlineMail size={20} />, url: "saiduzzaman113@gmail.com", name: "Email" },
     { icon: <SiLeetcode size={20} />, url: "https://leetcode.com/u/saad3620/", name: "LeetCode" },
