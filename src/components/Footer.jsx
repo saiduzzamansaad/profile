@@ -37,7 +37,7 @@ const Footer = () => {
     { icon: <FaGithub size={20} />, url: "https://github.com", name: "GitHub" },
     { icon: <FaLinkedin size={20} />, url: "https://linkedin.com", name: "LinkedIn" },
     { icon: <FaTwitter size={20} />, url: "https://twitter.com", name: "Twitter" },
-    { icon: <HiOutlineMail size={20} />, url: "mailto:email@example.com", name: "Email" },
+    { icon: <HiOutlineMail size={20} />, url: "saiduzzaman113@gmail.com", name: "Email" },
     { icon: <SiLeetcode size={20} />, url: "https://leetcode.com/u/saad3620/", name: "LeetCode" },
   ];
 
