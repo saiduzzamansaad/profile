@@ -169,7 +169,7 @@ const projects = [
   },
   {
     id: 2,
-    title: 'Task Manager',
+    title: 'Weather Application',
     description: 'The Live Weather & Forecast Dashboard is a modern, responsive web application built with React.js, TailwindCSS, and the OpenWeatherMap API, designed specifically for users in Bangladesh. It provides real-time weather updates and forecasts for all major districts, ensuring users are informed about current conditions, upcoming weather, and emergency alerts.',
     tags: ['React', 'Firebase', 'Tailwind CSS'],
     github: 'https://github.com/saiduzzamansaad',
