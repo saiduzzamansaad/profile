@@ -7,9 +7,8 @@ import { HiOutlineExternalLink } from 'react-icons/hi';
 
 // Product images (replace with your actual project images)
 import project1 from '../assets/project1.png';
-// import TaskManagerImage from './images/task-manager.jpg';
-// import WeatherAppImage from './images/weather-app.jpg';
-// import AIContentImage from './images/ai-content.jpg';
+import weather from '../assets/weather.png';
+
 
 // Simplified Laptop Model Component
 function LaptopModel({ screenContent }) {
@@ -171,16 +170,16 @@ const projects = [
   {
     id: 2,
     title: 'Task Manager',
-    description: 'A task management application with drag-and-drop functionality, team collaboration features, and real-time updates using Firebase.',
+    description: 'The Live Weather & Forecast Dashboard is a modern, responsive web application built with React.js, TailwindCSS, and the OpenWeatherMap API, designed specifically for users in Bangladesh. It provides real-time weather updates and forecasts for all major districts, ensuring users are informed about current conditions, upcoming weather, and emergency alerts.',
     tags: ['React', 'Firebase', 'Tailwind CSS'],
-    github: 'https://github.com',
-    live: 'https://example.com',
-    // image: TaskManagerImage,
+    github: 'https://github.com/saiduzzamansaad',
+    live: 'https://weather-4qhe.vercel.app/',
+    image: weather,
     features: [
-      'Drag-and-drop interface',
-      'Real-time collaboration',
-      'Task assignments',
-      'Progress tracking'
+      'Current Weather by District',
+      'Rain Alerts & 🌪 Cyclone Warnings',
+      ' Location-Based Suggestions',
+      ' Mobile Responsive Design'
     ]
   },
   {
