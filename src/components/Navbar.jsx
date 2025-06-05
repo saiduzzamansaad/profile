@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { FaBars, FaTimes, FaChevronDown, FaGem } from 'react-icons/fa';
