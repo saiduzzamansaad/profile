@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { FaBars, FaTimes, FaChevronDown, FaChevronRight, FaGem } from 'react-icons/fa';
+import { FaBars, FaTimes, FaChevronDown, FaGem } from 'react-icons/fa';
 import { FiExternalLink } from 'react-icons/fi';
 import { RiSparklingFill } from 'react-icons/ri';
 
@@ -10,12 +10,12 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [activeLink, setActiveLink] = useState(null);
-  const [expandedItems, setExpandedItems] = useState({});
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
       
+      // Update active link based on scroll position
       const sections = document.querySelectorAll('section');
       sections.forEach((section) => {
         const sectionTop = section.offsetTop;
@@ -30,39 +30,26 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleExpand = (id) => {
-    setExpandedItems(prev => ({
-      ...prev,
-      [id]: !prev[id]
-    }));
-  };
-
   const links = [
-    { id: 1, name: 'Home', href: '#home', icon: <RiSparklingFill className="text-pink-400" /> },
-    { 
-      id: 2, 
-      name: 'About', 
-      href: '#about', 
+    { id: 1, name: 'Home', href: '#home', icon: <RiSparklingFill className="mr-2" /> },
+    { id: 2, name: 'About', href: '#about', 
       subLinks: [
         { name: 'Bio', href: '#bio' },
         { name: 'Experience', href: '#experience' },
         { name: 'Education', href: '#education' }
       ],
-      icon: <FaGem className="text-violet-400" />
+      icon: <FaGem className="mr-2" />
     },
-    { id: 3, name: 'Skills', href: '#skills', icon: <RiSparklingFill className="text-pink-400" /> },
-    { 
-      id: 4, 
-      name: 'Projects', 
-      href: '#projects', 
+    { id: 3, name: 'Skills', href: '#skills', icon: <RiSparklingFill className="mr-2" /> },
+    { id: 4, name: 'Projects', href: '#projects', 
       subLinks: [
         { name: 'Web Apps', href: '#web' },
         { name: 'Mobile Apps', href: '#mobile' },
         { name: 'Open Source', href: '#opensource' }
       ],
-      icon: <FaGem className="text-violet-400" />
+      icon: <FaGem className="mr-2" />
     },
-    { id: 5, name: 'Contact', href: '#contact', icon: <RiSparklingFill className="text-pink-400" /> },
+    { id: 5, name: 'Contact', href: '#contact', icon: <RiSparklingFill className="mr-2" /> },
   ];
 
   return (
@@ -80,9 +67,9 @@ const Navbar = () => {
         ease: [0.32, 0.72, 0, 1],
         backgroundColor: { duration: 0.4 }
       }}
-      className={`fixed w-full h-20 md:h-24 flex justify-between items-center px-4 sm:px-8 lg:px-16 text-gray-300 z-50 border-b border-gray-700/50`}
+      className={`fixed w-full h-24 flex justify-between items-center px-8 lg:px-16 text-gray-300 z-50 border-b border-gray-700/50`}
     >
-      {/* Logo */}
+      {/* Logo with advanced animation */}
       <motion.div 
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -90,7 +77,7 @@ const Navbar = () => {
       >
         <motion.a 
           href="#home" 
-          className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-violet-400 to-pink-400 bg-size-200 bg-pos-0 hover:bg-pos-100 transition-all duration-500"
+          className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-violet-400 to-pink-400 bg-size-200 bg-pos-0 hover:bg-pos-100 transition-all duration-500"
           initial={{ backgroundPosition: '0% 50%' }}
           animate={{ backgroundPosition: '100% 50%' }}
           transition={{ 
@@ -100,18 +87,126 @@ const Navbar = () => {
           }}
         >
           <span className="flex items-center">
-            <RiSparklingFill className="mr-1 sm:mr-2 text-pink-400" />
-            <span className="hidden sm:inline">DevPortfolio</span>
-            <span className="sm:hidden">DP</span>
-            <RiSparklingFill className="ml-1 sm:ml-2 text-violet-400" />
+            <RiSparklingFill className="mr-2 text-pink-400" />
+            DevPortfolio
+            <RiSparklingFill className="ml-2 text-violet-400" />
           </span>
         </motion.a>
+        <motion.span 
+          className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-pink-500/0 via-pink-500 to-violet-500/0"
+          animate={{ 
+            backgroundPosition: nav ? '100% 50%' : '0% 50%',
+            opacity: nav ? 0 : 1
+          }}
+          transition={{ 
+            duration: 3,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
       </motion.div>
+
+      {/* Desktop Navigation */}
+      <ul className="hidden md:flex items-center space-x-2">
+        {links.map(({ id, name, href, subLinks, icon }) => (
+          <motion.li 
+            key={id}
+            className="relative px-4 py-2"
+            onHoverStart={() => setHoveredItem(id)}
+            onHoverEnd={() => setHoveredItem(null)}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: id * 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <motion.div className="relative">
+              <a 
+                href={href} 
+                className={`flex items-center text-sm lg:text-base font-medium transition-all duration-500 group ${
+                  activeLink === href ? 'text-white' : 'text-gray-400 hover:text-white'
+                }`}
+                onClick={() => setActiveLink(href)}
+              >
+                <motion.span 
+                  className="absolute -left-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                  animate={{ rotate: hoveredItem === id ? 360 : 0 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  {icon}
+                </motion.span>
+                {name}
+                {subLinks && (
+                  <FaChevronDown className={`ml-1 text-xs transition-all duration-300 ${
+                    hoveredItem === id ? 'rotate-180 text-pink-400' : 'text-gray-500'
+                  }`} />
+                )}
+              </a>
+              
+              {/* Active link indicator */}
+              {activeLink === href && (
+                <motion.div 
+                  className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-pink-400 to-violet-400 rounded-full"
+                  layoutId="activeLink"
+                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                />
+              )}
+            </motion.div>
+            
+            {/* Sublinks dropdown */}
+            {subLinks && hoveredItem === id && (
+              <motion.div 
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 15 }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute top-full left-0 mt-2 w-56 bg-[#0a192f] rounded-xl shadow-2xl border border-gray-700/50 overflow-hidden backdrop-blur-lg"
+              >
+                {subLinks.map((subLink, index) => (
+                  <motion.a 
+                    key={index}
+                    href={subLink.href}
+                    className="block px-4 py-3 text-sm text-gray-300 hover:bg-gray-800/50 hover:text-white transition-all duration-300 flex items-center border-b border-gray-800/50 last:border-0"
+                    whileHover={{ x: 5 }}
+                  >
+                    <RiSparklingFill className="mr-2 text-pink-400/80 text-xs" />
+                    {subLink.name}
+                    <FiExternalLink className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </motion.a>
+                ))}
+              </motion.div>
+            )}
+          </motion.li>
+        ))}
+        
+        {/* Premium CTA Button */}
+        <motion.li
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="ml-6 relative"
+        >
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-r from-pink-500/20 to-violet-500/20 rounded-full blur-md"
+            animate={{
+              opacity: [0.2, 0.4, 0.2],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+            }}
+          />
+          <a 
+            href="#contact" 
+            className="relative px-8 py-3 bg-gradient-to-r from-pink-600 to-violet-600 rounded-full text-sm font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-500 flex items-center"
+          >
+            <RiSparklingFill className="mr-2 animate-pulse" />
+            Hire Me
+          </a>
+        </motion.li>
+      </ul>
 
       {/* Mobile Navigation Toggle */}
       <motion.div 
         onClick={() => setNav(!nav)}
-        className="cursor-pointer z-50 text-gray-300 md:hidden relative p-2"
+        className="cursor-pointer z-50 text-gray-300 md:hidden relative"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >
@@ -122,7 +217,7 @@ const Navbar = () => {
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             />
-            <FaTimes size={24} className="relative text-pink-400" />
+            <FaTimes size={30} className="relative text-pink-400" />
           </>
         ) : (
           <>
@@ -131,7 +226,7 @@ const Navbar = () => {
               animate={{ scale: [1, 1.1, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
-            <FaBars size={24} className="relative" />
+            <FaBars size={30} className="relative" />
           </>
         )}
       </motion.div>
@@ -144,7 +239,7 @@ const Navbar = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40"
               onClick={() => setNav(false)}
             />
@@ -153,20 +248,15 @@ const Navbar = () => {
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ 
-                type: 'spring', 
-                damping: 25, 
-                stiffness: 300,
-                bounce: 0.1
-              }}
-              className="fixed top-0 right-0 w-4/5 max-w-xs h-full bg-[#0a192f] z-40 shadow-2xl border-l border-gray-700/50 overflow-y-auto"
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              className="fixed top-0 right-0 w-4/5 max-w-md h-full bg-gradient-to-b from-[#0a192f] to-[#0d1b36] z-40 shadow-2xl border-l border-gray-700/50 overflow-y-auto"
             >
               <div className="flex flex-col h-full">
                 {/* Header with close button */}
-                <div className="p-4 sm:p-6 border-b border-gray-700/50 flex justify-between items-center bg-[#0d1b36]">
+                <div className="p-6 border-b border-gray-700/50 flex justify-between items-center">
                   <a 
                     href="#home" 
-                    className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-violet-400"
+                    className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-violet-400"
                     onClick={() => {
                       setNav(false);
                       setActiveLink('#home');
@@ -176,104 +266,68 @@ const Navbar = () => {
                   </a>
                   <button 
                     onClick={() => setNav(false)}
-                    className="p-1 sm:p-2 rounded-full bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-300"
+                    className="p-2 rounded-full bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-300"
                   >
-                    <FaTimes className="text-gray-400 hover:text-white text-lg" />
+                    <FaTimes className="text-gray-400 hover:text-white" />
                   </button>
                 </div>
                 
                 {/* Navigation Links */}
-                <ul className="flex-1 p-2 sm:p-4 space-y-1 overflow-y-auto">
+                <ul className="flex-1 p-6 space-y-2">
                   {links.map(({ id, name, href, subLinks, icon }) => (
                     <motion.li 
                       key={id}
                       initial={{ x: 30, opacity: 0 }}
-                      animate={{ 
-                        x: 0, 
-                        opacity: 1,
-                        transition: { 
-                          delay: id * 0.05, 
-                          duration: 0.3, 
-                          ease: [0.22, 1, 0.36, 1] 
-                        }
-                      }}
-                      className="rounded-lg overflow-hidden"
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{ delay: id * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                     >
                       <div className="flex flex-col">
-                        <div className="flex items-center">
-                          <a 
-                            href={href} 
-                            className={`flex-1 py-3 px-3 sm:py-4 sm:px-4 rounded-lg flex items-center ${
-                              activeLink === href 
-                                ? 'bg-gray-800/50 text-white' 
-                                : 'text-gray-400 hover:bg-gray-800/30 hover:text-white'
-                            } transition-all duration-300`}
-                            onClick={(e) => {
-                              if (!subLinks) {
-                                setNav(false);
-                                setActiveLink(href);
-                              } else {
-                                e.preventDefault();
-                                toggleExpand(id);
-                              }
-                            }}
-                          >
-                            <span className="mr-2 sm:mr-3 text-base sm:text-lg">
-                              {React.cloneElement(icon, {
-                                className: `${icon.props.className} ${
-                                  activeLink === href ? 'opacity-100' : 'opacity-80'
-                                }`
-                              })}
-                            </span>
-                            <span className="text-base sm:text-lg">{name}</span>
-                          </a>
-                          
+                        <a 
+                          href={href} 
+                          className={`text-lg py-4 px-4 rounded-lg flex items-center ${
+                            activeLink === href 
+                              ? 'bg-gray-800/50 text-white' 
+                              : 'text-gray-400 hover:bg-gray-800/30 hover:text-white'
+                          } transition-all duration-300`}
+                          onClick={() => {
+                            setNav(false);
+                            setActiveLink(href);
+                          }}
+                        >
+                          <span className="mr-3">
+                            {React.cloneElement(icon, {
+                              className: `${icon.props.className} ${
+                                activeLink === href ? 'text-pink-400' : 'text-gray-500'
+                              }`
+                            })}
+                          </span>
+                          {name}
                           {subLinks && (
-                            <button 
-                              onClick={() => toggleExpand(id)}
-                              className="p-1 sm:p-2 mr-1 rounded-full hover:bg-gray-700/30 transition-all"
-                            >
-                              <FaChevronDown className={`transition-transform duration-300 text-xs ${
-                                expandedItems[id] ? 'rotate-180 text-pink-400' : 'text-gray-500'
-                              }`} />
-                            </button>
+                            <FaChevronDown className={`ml-auto transition-transform ${
+                              hoveredItem === id ? 'rotate-180' : ''
+                            }`} />
                           )}
-                        </div>
+                        </a>
                         
-                        {/* Sublinks dropdown */}
                         {subLinks && (
                           <motion.div 
-                            className="pl-2 sm:pl-4 space-y-1"
-                            initial={{ height: 0 }}
-                            animate={{ 
-                              height: expandedItems[id] ? 'auto' : 0,
-                              transition: { duration: 0.3 }
-                            }}
-                            style={{ overflow: 'hidden' }}
+                            className="pl-8 mt-1 space-y-1"
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            transition={{ duration: 0.3 }}
                           >
                             {subLinks.map((subLink, index) => (
-                              <motion.a 
+                              <a 
                                 key={index}
                                 href={subLink.href}
-                                className={`block py-2 px-3 sm:py-3 sm:px-4 pl-8 sm:pl-12 rounded-lg transition-all duration-300 flex items-center ${
-                                  activeLink === subLink.href
-                                    ? 'bg-gray-800/50 text-white'
-                                    : 'text-gray-400 hover:bg-gray-800/30 hover:text-white'
-                                }`}
+                                className="block py-3 px-4 text-gray-400 hover:text-white transition-colors duration-300 rounded-lg hover:bg-gray-800/20"
                                 onClick={() => {
                                   setNav(false);
                                   setActiveLink(subLink.href);
                                 }}
-                                initial={{ opacity: 0, x: 10 }}
-                                animate={{ 
-                                  opacity: expandedItems[id] ? 1 : 0,
-                                  x: expandedItems[id] ? 0 : 10,
-                                  transition: { delay: index * 0.05 }
-                                }}
                               >
-                                <FaChevronRight className="mr-2 text-xs text-pink-400/80" />
-                                <span className="text-sm sm:text-base">{subLink.name}</span>
-                              </motion.a>
+                                {subLink.name}
+                              </a>
                             ))}
                           </motion.div>
                         )}
@@ -283,10 +337,10 @@ const Navbar = () => {
                 </ul>
                 
                 {/* Footer with CTA */}
-                <div className="p-4 sm:p-6 border-t border-gray-700/50 bg-[#0d1b36]">
+                <div className="p-6 border-t border-gray-700/50">
                   <motion.a
                     href="#contact"
-                    className="block w-full py-3 sm:py-4 text-center bg-gradient-to-r from-pink-600 to-violet-600 rounded-lg sm:rounded-xl text-white font-semibold shadow-lg relative overflow-hidden group"
+                    className="block w-full py-4 text-center bg-gradient-to-r from-pink-600 to-violet-600 rounded-xl text-white font-semibold shadow-lg relative overflow-hidden"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => {
@@ -295,9 +349,9 @@ const Navbar = () => {
                     }}
                   >
                     <motion.span 
-                      className="absolute inset-0 bg-gradient-to-r from-pink-400/30 to-violet-400/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      className="absolute inset-0 bg-gradient-to-r from-pink-400/30 to-violet-400/30 opacity-0 hover:opacity-100 transition-opacity duration-500"
                     />
-                    <span className="relative flex items-center justify-center text-sm sm:text-base">
+                    <span className="relative flex items-center justify-center">
                       <RiSparklingFill className="mr-2 animate-pulse" />
                       Get In Touch
                     </span>
@@ -312,4 +366,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Navbar; 
