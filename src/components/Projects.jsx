@@ -6,7 +6,7 @@ import { FiGithub, FiLayers, FiX, FiChevronLeft, FiChevronRight } from 'react-ic
 import { HiOutlineExternalLink } from 'react-icons/hi';
 
 // Product images (replace with your actual project images)
-import project1 from '../assets/project1.png';
+import Cover from '../assets/Cover.png';
 import weather from '../assets/weather.png';
 
 
@@ -158,7 +158,7 @@ const projects = [
     tags: ['React', 'Tailwind CSS', 'Node.js', 'MongoDB', 'Redux'],
     github: 'https://github.com/saiduzzamansaad',
     live: 'https://civile-tools-pro.vercel.app/',
-    image: project1,
+    image: Cover,
     features: [
       'Structural Design Calculators',
       'Material Estimation Tools',
