@@ -8,6 +8,7 @@ import { HiOutlineExternalLink } from 'react-icons/hi';
 // Product images (replace with your actual project images)
 import Cover from '../assets/Cover.png';
 import weather from '../assets/weather.png';
+import invoice from '../assets/invoice.png';
 
 
 // Simplified Laptop Model Component
@@ -184,17 +185,17 @@ const projects = [
   },
   {
     id: 3,
-    title: 'Weather App',
-    description: 'A weather application that displays current and forecasted weather conditions for any location worldwide with interactive charts.',
+    title: 'Invoice Genarator',
+    description: 'Generate professional invoices instantly with our easy-to-use Invoice Generator tool',
     tags: ['React', 'OpenWeather API', 'Chart.js'],
-    github: 'https://github.com',
-    live: 'https://example.com',
-    // image: WeatherAppImage,
+    github: 'https://github.com/saiduzzamansaad',
+    live: 'https://invoice1-azure.vercel.app/',
+    image: invoice,
     features: [
-      'Current weather conditions',
-      '7-day forecast',
-      'Geolocation detection',
-      'City search'
+      'Auto Calculations',
+      'Customizable Templates',
+      'Client Management',
+      'Multi-Currency Support'
     ]
   },
   {
