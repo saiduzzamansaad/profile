@@ -132,8 +132,8 @@ const ServicesPricing = () => {
   const pricingPlans = [
     {
       name: "Starter",
-      monthly: 2999,
-      yearly: 2499,
+      monthly: 150,
+      yearly: 1800,
       description: "For early-stage startups and MVPs",
       features: [
         "Up to 10 pages",
@@ -151,12 +151,11 @@ const ServicesPricing = () => {
     },
     {
       name: "Enterprise",
-      monthly: 8999,
-      yearly: 7999,
+      monthly: 300,
+      yearly: 3600,
       description: "For scaling businesses and Web3 projects",
       features: [
         "Unlimited Pages",
-        "Full Web3 Stack",
         "AI Integration",
         "5 Revision Rounds",
         "12 Months Support",
@@ -173,8 +172,8 @@ const ServicesPricing = () => {
     },
     {
       name: "Elite",
-      monthly: 19999,
-      yearly: 16999,
+      monthly: 1000,
+      yearly: 12000,
       description: "For Fortune 500 and blockchain enterprises",
       features: [
         "Custom Web3 Stack",
