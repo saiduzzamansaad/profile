@@ -27,7 +27,6 @@ import premiumDeveloperImage from '../assets/premiumDeveloperImage.png'
 
 const PremiumHero = () => {
   const count = useMotionValue(0);
-  const rounded = useTransform(count, Math.round);
   const controls = useAnimation();
   const [isMobile, setIsMobile] = useState(false);
 
@@ -277,10 +276,8 @@ const PremiumHero = () => {
               variants={itemVariants}
               className="text-gray-400 mb-8 text-lg"
             >
-              <span className="text-purple-400 font-semibold text-2xl">
-                {rounded.get()}+
-              </span>
-              years of experience building scalable applications for global
+              
+              5 years of experience building scalable applications for global
               clients.
             </motion.p>
 
