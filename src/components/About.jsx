@@ -124,7 +124,7 @@ const About = () => {
   ];
 
   const stats = [
-    { icon: '👨‍💻', label: '4+ Years Exp', highlight: 'text-indigo-300' },
+    { icon: '👨‍💻', label: '8+ Years Exp', highlight: 'text-indigo-300' },
     { icon: '🚀', label: '120+ Projects', highlight: 'text-blue-300' },
     { icon: '🌐', label: 'Global Clients', highlight: 'text-cyan-300' },
     { icon: '📱', label: 'Mobile First', highlight: 'text-purple-300' },
@@ -326,7 +326,7 @@ const About = () => {
                 <div className="relative">
                   <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/30 to-violet-500/30 rounded-lg blur-sm"></div>
                   <div className="relative px-4 py-2 bg-gray-900/70 border border-gray-800/50 rounded-lg">
-                    <p className="text-gray-300/80 font-mono text-sm">Since 2017</p>
+                    <p className="text-gray-300/80 font-mono text-sm">Since 2025</p>
                   </div>
                 </div>
               </motion.div>
