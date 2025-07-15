@@ -1,5 +1,5 @@
-
-
+import { lazy, Suspense } from 'react';
+import { motion } from 'framer-motion';
 
 // Lazy load components for better performance
 const Navbar = lazy(() => import('./components/Navbar'));
@@ -10,7 +10,6 @@ const Projects = lazy(() => import('./components/Projects'));
 const Contact = lazy(() => import('./components/Contact'));
 const Footer = lazy(() => import('./components/Footer'));
 const Service = lazy(() => import('./components/Service'));
-const Education = lazy(() => import('./components/Education'));
 
 function App() {
   return (
@@ -35,7 +34,6 @@ function App() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Hero />
             <About />
-            <Education />
             <Skills />
             <Projects />
             <Service />
