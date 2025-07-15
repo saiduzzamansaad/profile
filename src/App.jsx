@@ -10,7 +10,7 @@ const Projects = lazy(() => import('./components/Projects'));
 const Contact = lazy(() => import('./components/Contact'));
 const Footer = lazy(() => import('./components/Footer'));
 const Service = lazy(() => import('./components/Service'));
-const Education = lazy(() => import('./components/Education'));
+
 
 function App() {
   return (
@@ -36,7 +36,7 @@ function App() {
             <Hero />
             <About />
             <Skills />
-            <Education/>
+            
             <Projects />
             <Service />
             <Contact />
