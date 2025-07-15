@@ -1,5 +1,5 @@
-import { lazy, Suspense } from 'react';
-import { motion } from 'framer-motion';
+
+
 
 // Lazy load components for better performance
 const Navbar = lazy(() => import('./components/Navbar'));
