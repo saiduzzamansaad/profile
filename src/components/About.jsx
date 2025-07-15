@@ -1,114 +1,19 @@
 import { motion, useAnimation, useMotionValue, useTransform } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 const About = () => {
-  const [isMobile, setIsMobile] = useState(false);
   const controls = useAnimation();
   const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
-
-  // Dynamic color values for interactive elements
+  
+  // Performance optimized motion values
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const rotateX = useTransform(y, [-100, 100], [10, -10]);
-  const rotateY = useTransform(x, [-100, 100], [-10, 10]);
+  const rotateX = useTransform(y, [-100, 100], [5, -5]);
+  const rotateY = useTransform(x, [-100, 100], [-5, 5]);
 
-  // Check for mobile viewport
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  // Handle mouse move for 3D tilt effect
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    x.set(e.clientX - rect.left - rect.width / 2);
-    y.set(e.clientY - rect.top - rect.height / 2);
-  };
-
-  const handleMouseLeave = () => {
-    controls.start({ rotateX: 0, rotateY: 0 });
-    x.set(0);
-    y.set(0);
-  };
-
-  // Animation sequences
-  useEffect(() => {
-    if (inView) {
-      controls.start({
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.8 }
-      });
-    }
-  }, [controls, inView]);
-
-  const floatingVariants = {
-    initial: { y: 0 },
-    animate: {
-      y: [0, -30, 0],
-      transition: {
-        duration: 12,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }
-  };
-
-  const floatingVariants2 = {
-    initial: { y: 0 },
-    animate: {
-      y: [0, 40, 0],
-      transition: {
-        duration: 15,
-        repeat: Infinity,
-        ease: "easeInOut",
-        delay: 3
-      }
-    }
-  };
-
-  const floatingVariants3 = {
-    initial: { x: 0 },
-    animate: {
-      x: [0, 30, 0],
-      transition: {
-        duration: 18,
-        repeat: Infinity,
-        ease: "easeInOut",
-        delay: 1.5
-      }
-    }
-  };
-
-  const textVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: [0.16, 0.77, 0.47, 0.97]
-      }
-    }
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.4
-      }
-    }
-  };
-
-  const techStack = [
+  // Memoized tech stack data
+  const techStack = useMemo(() => [
     { name: 'React', color: 'text-cyan-300', bg: 'bg-cyan-900/30', border: 'border-cyan-500/20' },
     { name: 'Next.js', color: 'text-gray-100', bg: 'bg-gray-800/30', border: 'border-gray-600/20' },
     { name: 'TypeScript', color: 'text-blue-300', bg: 'bg-blue-900/30', border: 'border-blue-500/20' },
@@ -121,9 +26,10 @@ const About = () => {
     { name: 'Kubernetes', color: 'text-indigo-300', bg: 'bg-indigo-900/30', border: 'border-indigo-500/20' },
     { name: 'PostgreSQL', color: 'text-violet-300', bg: 'bg-violet-900/30', border: 'border-violet-500/20' },
     { name: 'Redis', color: 'text-red-300', bg: 'bg-red-900/30', border: 'border-red-500/20' },
-  ];
+  ], []);
 
-  const stats = [
+  // Memoized stats data
+  const stats = useMemo(() => [
     { icon: '👨‍💻', label: '5+ Years Exp', highlight: 'text-indigo-300' },
     { icon: '🚀', label: '120+ Projects', highlight: 'text-blue-300' },
     { icon: '🌐', label: 'Global Clients', highlight: 'text-cyan-300' },
@@ -132,126 +38,137 @@ const About = () => {
     { icon: '🔒', label: 'Secure Code', highlight: 'text-pink-300' },
     { icon: '🧠', label: 'AI Integration', highlight: 'text-amber-300' },
     { icon: '📈', label: 'Scalable Solutions', highlight: 'text-emerald-300' }
-  ];
+  ], []);
+
+  // Optimized animations
+  const floatingVariants = {
+    animate: {
+      y: [0, -30, 0],
+      transition: {
+        duration: 12,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }
+    }
+  };
+
+  const textVariants = {
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.16, 0.77, 0.47, 0.97]
+      }
+    }
+  };
+
+  const containerVariants = {
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  // Performance optimized handlers
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    x.set(e.clientX - rect.left - rect.width / 2);
+    y.set(e.clientY - rect.top - rect.height / 2);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  // Animation triggers
+  useEffect(() => {
+    if (inView) {
+      controls.start({
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.6 }
+      });
+    }
+  }, [controls, inView]);
 
   return (
     <section 
       id="about" 
       ref={ref}
-      className="w-full py-24 md:py-40 relative overflow-hidden bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950"
-      style={{ perspective: '1000px' }}
+      className="min-h-screen w-full bg-[#020617] relative overflow-hidden"
     >
-      {/* Luxury background elements */}
+      {/* 2025 Background Elements - Optimized */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Dynamic floating elements */}
+        {/* Modern grid background with reduced complexity */}
+        <div
+        className="absolute inset-0 z-0"
+        style={{
+          background: "#020617",
+          backgroundImage: `
+            linear-gradient(to right, rgba(71,85,105,0.15) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(71,85,105,0.15) 1px, transparent 1px),
+            radial-gradient(circle at 50% 60%, rgba(236,72,153,0.15) 0%, rgba(168,85,247,0.05) 40%, transparent 70%)
+          `,
+          backgroundSize: "40px 40px, 40px 40px, 100% 100%",
+        }}
+      />
+        
+        
+        {/* Reduced number of floating elements */}
         <motion.div
           variants={floatingVariants}
-          initial="initial"
           animate="animate"
-          className="absolute top-1/4 left-1/4 w-40 h-40 rounded-full bg-gradient-to-br from-indigo-700/10 via-violet-700/10 to-purple-700/10 blur-[100px] md:blur-[150px]"
+          className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full bg-gradient-to-br from-indigo-700/10 to-purple-700/10 blur-[80px]"
         />
         <motion.div
-          variants={floatingVariants2}
-          initial="initial"
+          variants={floatingVariants}
           animate="animate"
-          className="absolute bottom-1/3 right-1/4 w-48 h-48 rounded-full bg-gradient-to-br from-blue-700/10 via-cyan-700/10 to-teal-700/10 blur-[110px] md:blur-[160px]"
+          className="absolute bottom-1/3 right-1/4 w-40 h-40 rounded-full bg-gradient-to-br from-blue-700/10 to-teal-700/10 blur-[90px]"
         />
-        <motion.div
-          variants={floatingVariants3}
-          initial="initial"
-          animate="animate"
-          className="absolute top-1/2 right-1/2 w-36 h-36 rounded-full bg-gradient-to-br from-purple-700/10 via-pink-700/10 to-rose-700/10 blur-[90px] md:blur-[140px]"
-        />
-
-        {/* Luxury grid pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0yMCAzOC4zMzdDMTkuNDE3IDM4LjMzNyAxOC44MzMgMzguMTQzIDE4LjMzMyAzNy43NUwxLjY2NiAyMy43NUMwLjY2NiAyMi45NTkgMC4yNSAyMS43NSAwLjI1IDIwLjVWMTkuNUMwLjI1IDE4LjI1IDAuNjY2IDE3LjA0MSAxLjY2NiAxNi4yNUwxOC4zMzMgMi4yNUMxOC44MzMgMS44NTcgMTkuNDE3IDEuNjYzIDIwIDEuNjYzQzIwLjU4MyAxLjY2MyAyMS4xNjcgMS44NTcgMjEuNjY3IDIuMjVMMzguMzM0IDE2LjI1QzM5LjMzNCAxNy4wNDEgMzkuNzUgMTguMjUgMzkuNzUgMTkuNVYyMC41QzM5Ljc1IDIxLjc1IDM5LjMzNCAyMi45NTkgMzguMzM0IDIzLjc1TDIxLjY2NyAzNy43NUMyMS4xNjcgMzguMTQzIDIwLjU4MyAzOC4zMzcgMjAgMzguMzM3WiIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvZz48L3N2Zz4=')]"></div>
-        </div>
-
-        {/* Micro-interaction particles */}
-        <div className="absolute inset-0 overflow-hidden">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              initial={{ 
-                opacity: 0,
-                x: Math.random() * 100 - 50,
-                y: Math.random() * 100 - 50,
-                scale: 0.5
-              }}
-              animate={{
-                opacity: [0, 0.3, 0],
-                scale: [0.5, 1.2, 0.5],
-                transition: {
-                  duration: 5 + Math.random() * 10,
-                  repeat: Infinity,
-                  delay: Math.random() * 5
-                }
-              }}
-              className="absolute w-1 h-1 rounded-full bg-white/30"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`
-              }}
-            />
-          ))}
-        </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center h-full relative z-10">
-        {/* Section Header */}
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 flex flex-col justify-center h-full relative z-10">
+        {/* Section Header - Simplified */}
         <motion.div 
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 0.77, 0.47, 0.97] }}
-          className="pb-16 md:pb-24 text-center"
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="pb-14 md:pb-20 text-center"
         >
           <motion.h2 
-            className="text-5xl sm:text-6xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-violet-300 inline-block"
-            initial={{ opacity: 0, y: 30 }}
+            className="text-4xl sm:text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-violet-300 inline-block"
+            initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
           >
             About Me
           </motion.h2>
           <motion.div
             initial={{ scaleX: 0, originX: 0 }}
             animate={inView ? { scaleX: 1 } : {}}
-            transition={{ duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="h-0.5 bg-gradient-to-r from-indigo-500/70 via-violet-500/70 to-purple-500/70 mt-6 md:mt-8 w-40 md:w-56 mx-auto"
-          />
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 0.3 } : {}}
-            transition={{ duration: 1.5, delay: 0.8 }}
-            className="h-px bg-gradient-to-r from-transparent via-white/50 to-transparent mt-6 md:mt-8 w-3/4 mx-auto"
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="h-0.5 bg-gradient-to-r from-indigo-500/50 via-violet-500/50 to-purple-500/50 mt-6 w-32 md:w-48 mx-auto"
           />
         </motion.div>
 
-        {/* Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-20 items-center">
+        {/* Content Grid - Optimized */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
           {/* Left Column - Profile Card */}
           <motion.div
-            initial={{ opacity: 0, x: -80 }}
+            initial={{ opacity: 0, x: -60 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 0.77, 0.47, 0.97] }}
+            transition={{ duration: 0.6, delay: 0.4 }}
             className="relative"
           >
-            {/* Decorative elements */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={inView ? { opacity: 0.3, scale: 1 } : {}}
-              transition={{ duration: 1.5, delay: 0.6 }}
-              className="absolute -inset-6 md:-inset-8 bg-gradient-to-br from-indigo-600/20 to-violet-600/20 rounded-3xl md:rounded-[2rem] transform rotate-3 blur-xl"
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={inView ? { opacity: 0.2, scale: 1 } : {}}
-              transition={{ duration: 1.5, delay: 0.9 }}
-              className="absolute -inset-4 md:-inset-6 bg-gradient-to-br from-blue-600/20 to-cyan-600/20 rounded-2xl md:rounded-3xl transform -rotate-2 blur-lg"
-            />
+            {/* Simplified decorative elements */}
+            <div className="absolute -inset-4 md:-inset-6 bg-gradient-to-br from-indigo-600/15 to-violet-600/15 rounded-2xl transform rotate-1 blur-lg" />
 
-            {/* Main card */}
+            {/* Main card with reduced effects */}
             <motion.div
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
@@ -260,74 +177,46 @@ const About = () => {
                 rotateY,
                 transformStyle: 'preserve-3d'
               }}
-              className="relative bg-gray-900/80 backdrop-blur-xl border border-gray-800/50 rounded-2xl md:rounded-3xl p-8 md:p-10 shadow-2xl overflow-hidden"
+              className="relative bg-gray-900/80 backdrop-blur-sm border border-gray-800/50 rounded-xl md:rounded-2xl p-6 md:p-8 shadow-xl overflow-hidden"
             >
-              {/* Glow effect */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={inView ? { opacity: 0.15 } : {}}
-                transition={{ duration: 1.5, delay: 1.2 }}
-                className="absolute -inset-12 bg-gradient-to-br from-indigo-500/20 via-violet-500/20 to-purple-500/20 pointer-events-none"
-              />
-
-              {/* Animated border */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={inView ? { opacity: 1 } : {}}
-                transition={{ duration: 1.5, delay: 1.5 }}
-                className="absolute inset-0 rounded-2xl md:rounded-3xl pointer-events-none"
-                style={{
-                  boxShadow: 'inset 0 0 0 1px rgba(165, 180, 252, 0.1)',
-                  background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%)'
-                }}
-              />
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={inView ? { opacity: 1 } : {}}
-                transition={{ delay: 0.8 }}
-                className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-100 leading-tight"
+                transition={{ delay: 0.6 }}
+                className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-100 leading-tight"
               >
                 <p>Hello, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-violet-300">MD. SAIDUZZAMAN</span></p>
-                <p className="mt-4 md:mt-6 text-xl sm:text-2xl md:text-3xl text-gray-400/90">Senior Full Stack Developer</p>
+                <p className="mt-3 md:mt-4 text-lg sm:text-xl md:text-2xl text-gray-400">Senior Full Stack Developer</p>
               </motion.div>
 
               <motion.div
                 variants={containerVariants}
                 initial="hidden"
                 animate={inView ? "visible" : {}}
-                className="mt-8 md:mt-12 grid grid-cols-2 gap-4 md:gap-6"
+                className="mt-6 md:mt-8 grid grid-cols-2 gap-3 md:gap-4"
               >
                 {stats.map((item, index) => (
                   <motion.div
                     key={index}
                     variants={textVariants}
-                    className={`flex items-center space-x-3 bg-gray-900/50 p-3 md:p-4 rounded-xl border border-gray-800/50 shadow-lg hover:shadow-indigo-500/10 transition-all ${item.highlight}`}
-                    whileHover={{ 
-                      y: -5, 
-                      scale: 1.03,
-                      backgroundColor: 'rgba(30, 41, 59, 0.5)'
-                    }}
-                    whileTap={{ scale: 0.98 }}
+                    className={`flex items-center space-x-2 bg-gray-900/50 p-2 md:p-3 rounded-lg border border-gray-800/50 ${item.highlight}`}
+                    whileHover={{ y: -3 }}
                   >
-                    <span className="text-2xl md:text-3xl">{item.icon}</span>
-                    <span className="text-gray-300/90 text-sm md:text-base">{item.label}</span>
+                    <span className="text-xl md:text-2xl">{item.icon}</span>
+                    <span className="text-gray-300 text-xs md:text-sm">{item.label}</span>
                   </motion.div>
                 ))}
               </motion.div>
 
               {/* Signature element */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 1.8 }}
-                className="mt-10 md:mt-14 flex justify-end"
+                transition={{ delay: 1 }}
+                className="mt-8 md:mt-10 flex justify-end"
               >
-                <div className="relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/30 to-violet-500/30 rounded-lg blur-sm"></div>
-                  <div className="relative px-4 py-2 bg-gray-900/70 border border-gray-800/50 rounded-lg">
-                    <p className="text-gray-300/80 font-mono text-sm">Since 2025</p>
-                  </div>
+                <div className="px-3 py-1 bg-gray-900/70 border border-gray-800/50 rounded-md">
+                  <p className="text-gray-300/80 font-mono text-xs">Since 2017</p>
                 </div>
               </motion.div>
             </motion.div>
@@ -335,71 +224,67 @@ const About = () => {
 
           {/* Right Column - Description */}
           <motion.div
-            initial={{ opacity: 0, x: 80 }}
+            initial={{ opacity: 0, x: 60 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 0.77, 0.47, 0.97] }}
-            className="space-y-7 md:space-y-9 text-gray-400/90 text-lg md:text-xl leading-relaxed"
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="space-y-5 md:space-y-6 text-gray-400 text-base md:text-lg leading-relaxed"
           >
             <motion.p
               variants={textVariants}
               initial="hidden"
               animate={inView ? "visible" : {}}
-              className="relative pl-6 border-l-2 border-indigo-500/30"
+              className="relative pl-5 border-l-2 border-indigo-500/30"
             >
-              <span className="absolute left-0 top-0 w-1 h-6 bg-gradient-to-b from-indigo-500 to-violet-500 rounded-full"></span>
-              I'm a passionate <span className="text-indigo-300 font-medium">Senior Full Stack Developer</span> specializing in modern JavaScript ecosystems. With expertise in <span className="text-blue-300 font-medium">React, Next.js, and TypeScript</span>, I architect performant, scalable web applications with pixel-perfect interfaces.
+              <span className="absolute left-0 top-0 w-1 h-4 bg-gradient-to-b from-indigo-500 to-violet-500 rounded-full"></span>
+              I'm a passionate <span className="text-indigo-300 font-medium">Senior Full Stack Developer</span> specializing in modern JavaScript ecosystems. With expertise in <span className="text-blue-300 font-medium">React, Next.js, and TypeScript</span>, I architect performant, scalable web applications.
             </motion.p>
 
             <motion.p
               variants={textVariants}
               initial="hidden"
               animate={inView ? "visible" : {}}
-              transition={{ delay: 0.3 }}
-              className="relative pl-6 border-l-2 border-indigo-500/30"
+              transition={{ delay: 0.2 }}
+              className="relative pl-5 border-l-2 border-indigo-500/30"
             >
-              <span className="absolute left-0 top-0 w-1 h-6 bg-gradient-to-b from-blue-500 to-cyan-500 rounded-full"></span>
-              My approach combines <span className="text-purple-300 font-medium">clean code architecture</span> with <span className="text-cyan-300 font-medium">cutting-edge design principles</span>. I'm committed to writing efficient, maintainable code and creating seamless user experiences across all platforms.
+              <span className="absolute left-0 top-0 w-1 h-4 bg-gradient-to-b from-blue-500 to-cyan-500 rounded-full"></span>
+              My approach combines <span className="text-purple-300 font-medium">clean code architecture</span> with <span className="text-cyan-300 font-medium">cutting-edge design</span>. I'm committed to writing efficient, maintainable code and creating seamless user experiences.
             </motion.p>
 
             <motion.p
               variants={textVariants}
               initial="hidden"
               animate={inView ? "visible" : {}}
-              transition={{ delay: 0.6 }}
-              className="relative pl-6 border-l-2 border-indigo-500/30"
+              transition={{ delay: 0.4 }}
+              className="relative pl-5 border-l-2 border-indigo-500/30"
             >
-              <span className="absolute left-0 top-0 w-1 h-6 bg-gradient-to-b from-violet-500 to-purple-500 rounded-full"></span>
-              Currently focused on <span className="text-green-300 font-medium">performance optimization</span> and <span className="text-amber-300 font-medium">emerging web technologies</span>. When not coding, I mentor junior developers and contribute to open-source projects.
+              <span className="absolute left-0 top-0 w-1 h-4 bg-gradient-to-b from-violet-500 to-purple-500 rounded-full"></span>
+              Currently focused on <span className="text-green-300 font-medium">performance optimization</span> and <span className="text-amber-300 font-medium">emerging web technologies</span>. When not coding, I mentor junior developers.
             </motion.p>
 
             {/* Tech Stack */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={inView ? { opacity: 1 } : {}}
-              transition={{ delay: 1 }}
-              className="pt-8 md:pt-12"
+              transition={{ delay: 0.8 }}
+              className="pt-6 md:pt-8"
             >
               <motion.h3 
-                className="text-gray-300 text-xl md:text-2xl font-medium mb-5 md:mb-7"
-                initial={{ opacity: 0, y: 20 }}
+                className="text-gray-300 text-lg md:text-xl font-medium mb-4 md:mb-5"
+                initial={{ opacity: 0, y: 10 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 1.2 }}
+                transition={{ delay: 1 }}
               >
                 Technical Expertise
               </motion.h3>
-              <div className="flex flex-wrap gap-3 md:gap-4">
+              <div className="flex flex-wrap gap-2 md:gap-3">
                 {techStack.map((tech, index) => (
                   <motion.span
                     key={tech.name}
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 20 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 1.4 + (index * 0.05) }}
-                    className={`px-4 py-2 ${tech.bg} border ${tech.border} rounded-full ${tech.color} text-sm md:text-base font-medium shadow-lg hover:shadow-indigo-500/10 transition-all`}
-                    whileHover={{ 
-                      scale: 1.05,
-                      backgroundColor: 'rgba(15, 23, 42, 0.5)'
-                    }}
-                    whileTap={{ scale: 0.95 }}
+                    transition={{ delay: 1.2 + (index * 0.03) }}
+                    className={`px-3 py-1 ${tech.bg} border ${tech.border} rounded-full ${tech.color} text-xs md:text-sm font-medium`}
+                    whileHover={{ scale: 1.05 }}
                   >
                     {tech.name}
                   </motion.span>
@@ -407,95 +292,56 @@ const About = () => {
               </div>
             </motion.div>
 
-            {/* Call to Action */}
+            {/* Call to Action - Modern 2025 Style */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={inView ? { opacity: 1 } : {}}
-              transition={{ delay: 1.8 }}
-              className="pt-10 md:pt-14 flex flex-col sm:flex-row gap-4"
+              transition={{ delay: 1.4 }}
+              className="pt-8 md:pt-10 flex flex-col sm:flex-row gap-3"
             >
-              <motion.button
-                whileHover={{ 
-                  scale: 1.03,
-                  boxShadow: "0 10px 30px -5px rgba(99, 102, 241, 0.5)"
-                }}
-                whileTap={{ scale: 0.97 }}
-                className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-xl font-medium flex items-center gap-3 shadow-xl hover:shadow-2xl transition-all group relative overflow-hidden"
+              <motion.a
+                href="#portfolio"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-lg font-medium flex items-center gap-2 shadow-lg transition-all relative overflow-hidden group"
               >
-                <span className="relative z-10">View My Portfolio</span>
-                <motion.span
-                  className="relative z-10"
-                  animate={{ 
-                    x: [0, 5, 0],
-                  }}
-                  transition={{ 
-                    repeat: Infinity, 
-                    duration: 1.5,
-                    ease: "easeInOut"
-                  }}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </motion.span>
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-violet-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  initial={{ opacity: 0 }}
-                />
-              </motion.button>
+                <span className="relative z-10">View Portfolio</span>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 relative z-10" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+                <span className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-violet-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </motion.a>
 
-              <motion.button
-                whileHover={{ 
-                  scale: 1.03,
-                  boxShadow: "0 10px 30px -5px rgba(236, 72, 153, 0.3)"
-                }}
-                whileTap={{ scale: 0.97 }}
-                className="px-8 py-4 bg-gray-900/70 border border-gray-800/50 text-gray-300 rounded-xl font-medium flex items-center gap-3 shadow-xl hover:shadow-2xl transition-all group relative overflow-hidden"
+              <motion.a
+                href="#contact"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="px-6 py-3 bg-gray-900/70 border border-gray-800/50 text-gray-300 rounded-lg font-medium flex items-center gap-2 shadow-lg transition-all relative overflow-hidden group"
               >
-                <span className="relative z-10">Download CV</span>
-                <motion.span
-                  className="relative z-10"
-                  animate={{ 
-                    y: [0, -2, 0],
-                  }}
-                  transition={{ 
-                    repeat: Infinity, 
-                    duration: 1.5,
-                    ease: "easeInOut"
-                  }}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </motion.span>
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-gray-800/50 to-gray-900/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  initial={{ opacity: 0 }}
-                />
-              </motion.button>
+                <span className="relative z-10">Contact Me</span>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 relative z-10" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                </svg>
+                <span className="absolute inset-0 bg-gray-800/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </motion.a>
             </motion.div>
           </motion.div>
         </div>
       </div>
 
-      {/* Luxury decorative elements */}
+      {/* Modern decorative elements */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
-        transition={{ delay: 2 }}
-        className="absolute bottom-16 left-16 w-20 h-20 border-t-4 border-l-4 border-indigo-400/30 rounded-tl-xl"
+        transition={{ delay: 1.6 }}
+        className="absolute bottom-12 left-12 w-16 h-16 border-t-2 border-l-2 border-indigo-400/20 rounded-tl-lg"
       />
       <motion.div
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
-        transition={{ delay: 2.2 }}
-        className="absolute top-16 right-16 w-20 h-20 border-b-4 border-r-4 border-violet-400/30 rounded-br-xl"
-      />
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 0.1 } : {}}
-        transition={{ delay: 2.4 }}
-        className="absolute top-1/4 right-1/4 w-32 h-32 rounded-full bg-gradient-to-br from-indigo-500/10 to-violet-500/10 blur-3xl"
+        transition={{ delay: 1.8 }}
+        className="absolute top-12 right-12 w-16 h-16 border-b-2 border-r-2 border-violet-400/20 rounded-br-lg"
       />
     </section>
   );
