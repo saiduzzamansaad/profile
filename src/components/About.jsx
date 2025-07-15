@@ -216,7 +216,7 @@ const About = () => {
                 className="mt-8 md:mt-10 flex justify-end"
               >
                 <div className="px-3 py-1 bg-gray-900/70 border border-gray-800/50 rounded-md">
-                  <p className="text-gray-300/80 font-mono text-xs">Since 2017</p>
+                  <p className="text-gray-300/80 font-mono text-xs">Since 2025</p>
                 </div>
               </motion.div>
             </motion.div>
